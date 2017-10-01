@@ -145,9 +145,13 @@ $(function(){
         var list = data.results.bindings;
         var content = '';
         var prop;
+        var prefix;
+        var link = true;
         for(i=0 ; i<list.length ; i++) {
 
           prop = list[i].p.value.replace(/.*prop\/direct\//g, '');
+          prefix = '';
+          link = true;
 
           switch( prop ) {
             case 'P18':       // 画像
@@ -155,57 +159,37 @@ $(function(){
             case 'P856':      // 公式ウェブサイト
             case 'P948':      // ウィキボヤージュ用バナー
             case 'P973':      // 詳細情報URL
-              content += 
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="' + list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
               break;
             case 'P373':      // コモンズのカテゴリ
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="https://commons.wikimedia.org/wiki/Category:' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'https://commons.wikimedia.org/wiki/Category:';
               break;
             case 'P1004':     // MusicBrainz place ID
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="https://musicbrainz.org/place/' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'https://musicbrainz.org/place/';
               break;
             case 'P1305':     // Skyscraper Center ID
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="http://www.skyscrapercenter.com/building.php?building_id=' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'http://www.skyscrapercenter.com/building.php?building_id=';
               break;
             case 'P2002':     // Twitterのユーザー名
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="https://twitter.com/' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'https://twitter.com/';
               break;
             case 'P2013':     // フェイスブックID
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="https://www.facebook.com/' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'https://www.facebook.com/';
               break;
             case 'P3225':     // 法人番号
-              content +=
-                list[i].propLabel.value + '(' + prop + ') : ' + 
-                '<a href="http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=' +
-                list[i].oLabel.value + '" target="_blank">' + 
-                list[i].oLabel.value + '</a><br/>';
+              prefix = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=';
               break;
             default:
-              content += 
-                list[i].propLabel.value + '(' + prop + ') : ' +
-                list[i].oLabel.value + '<br/>';
+              link = false;
+          }
+          if(link) {
+            content +=
+              list[i].propLabel.value + '(' + prop + ') : ' + 
+              '<a href="' + prefix + list[i].oLabel.value + '" target="_blank">' + 
+              list[i].oLabel.value + '</a><br/>';
+          } else {
+            content += 
+              list[i].propLabel.value + '(' + prop + ') : ' +
+              list[i].oLabel.value + '<br/>';
           }
         }
 
