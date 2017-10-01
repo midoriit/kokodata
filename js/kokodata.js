@@ -81,7 +81,7 @@ $(function(){
       '    bd:serviceParam wikibase:language "ja, en" . ' +
       '  } ' +
       '} ' +
-      'LIMIT 500';
+      'LIMIT 250';
     var query = {
       query : sparql,
       format: 'json'
@@ -171,6 +171,13 @@ $(function(){
               content +=
                 list[i].propLabel.value + '(' + prop + ') : ' + 
                 '<a href="https://musicbrainz.org/place/' +
+                list[i].oLabel.value + '" target="_blank">' + 
+                list[i].oLabel.value + '</a><br/>';
+              break;
+            case 'P1305':     // Skyscraper Center ID
+              content +=
+                list[i].propLabel.value + '(' + prop + ') : ' + 
+                '<a href="http://www.skyscrapercenter.com/building.php?building_id=' +
                 list[i].oLabel.value + '" target="_blank">' + 
                 list[i].oLabel.value + '</a><br/>';
               break;
