@@ -146,12 +146,14 @@ $(function(){
         var content = '';
         var prop;
         var prefix;
+        var suffix;
         var isDate;
         var link;
         for(i=0 ; i<list.length ; i++) {
 
           prop = list[i].p.value.replace(/.*prop\/direct\//g, '');
           prefix = '';
+          suffix = '';
           link = true;
           isDate = false;
 
@@ -166,6 +168,9 @@ $(function(){
               break;
 
             // 識別子
+            case 'P213':      // ISNI
+              prefix = 'http://www.isni.org/';
+              break;
             case 'P214':      // VIAF識別子
               prefix = 'http://viaf.org/viaf/';
               break;
@@ -175,8 +180,20 @@ $(function(){
             case 'P244':      // LCNAF識別子
               prefix = 'http://id.loc.gov/authorities/';
               break;
+            case 'P245':      // ULAN
+              prefix = 'http://vocab.getty.edu/page/ulan/';
+              break;
+            case 'P268':      // BNF
+              prefix = 'http://catalogue.bnf.fr/ark:/12148/cb';
+              break;
+            case 'P269':      // SUDOC
+              prefix = 'https://www.idref.fr/';
+              break;
             case 'P271':      // CiNii著者識別子
               prefix = 'http://ci.nii.ac.jp/author/';
+              break;
+            case 'P345':      // IMDb識別子
+              prefix = 'http://www.imdb.com/company/';
               break;
             case 'P349':      // 国立国会図書館典拠ID
               prefix = 'http://id.ndl.go.jp/auth/ndlna/';
@@ -184,11 +201,17 @@ $(function(){
             case 'P373':      // コモンズのカテゴリ
               prefix = 'https://commons.wikimedia.org/wiki/Category:';
               break;
+            case 'P409':      // NLA
+              prefix = 'http://nla.gov.au/anbd.aut-an';
+              break;
             case 'P454':      // Structurae
               prefix = 'https://structurae.net/structures/';
               break;
             case 'P455':     // Emporis
               prefix = 'https://www.emporis.com/buildings/';
+              break;
+            case 'P691':     // NKC識別子
+              prefix = 'http://aut.nkp.cz/';
               break;
             case 'P757':      // 世界遺産識別子
               prefix = 'http://whc.unesco.org/en/list/';
@@ -196,11 +219,27 @@ $(function(){
             case 'P935':      // コモンズのギャラリー
               prefix = 'https://commons.wikimedia.org/wiki/';
               break;
+            case 'P950':      // BNE識別子
+              prefix = 'http://datos.bne.es/resource/';
+              break;
             case 'P982':     // MusicBrainz地域ID
               prefix = 'https://musicbrainz.org/area/';
               break;
             case 'P1004':     // MusicBrainz place ID
               prefix = 'https://musicbrainz.org/place/';
+              break;
+            case 'P1005':     // PTBNP識別子
+              prefix = 'http://urn.bn.pt/nca/unimarc-authorities/txt?id=';
+              break;
+            case 'P1017':     // BAV識別子
+              prefix = 'https://viaf.org/viaf/sourceID/BAV|';
+              break;
+            case 'P1207':     // NUKAT
+              prefix = 'https://viaf.org/processed/NUKAT|';
+              break;
+            case 'P1296':     // カタルーニャ大百科事典識別子
+              prefix = 'http://www.enciclopedia.cat/EC-GEC-';
+              suffix = '.xml';
               break;
             case 'P1305':     // Skyscraper Center ID
               prefix = 'http://www.skyscrapercenter.com/building.php?building_id=';
@@ -241,8 +280,20 @@ $(function(){
             case 'P2765':     // blue-style.com ID
               prefix = 'http://www.blue-style.com/building/';
               break;
+            case 'P3222':     // NE.se ID
+              prefix = 'https://www.ne.se/uppslagsverk/encyklopedi/l%C3%A5ng/';
+              break;
             case 'P3225':     // 法人番号
               prefix = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=';
+              break;
+            case 'P3348':     // National Library of Greece ID
+              prefix = 'http://nlg.okfn.gr/resource/authority/record';
+              break;
+            case 'P3762':     // openMLOL author ID
+              prefix = 'https://openmlol.it/autore/';
+              break;
+            case 'P3820':     // Flanders Arts Institute venue ID
+              prefix = 'http://data.kunsten.be/venues/';
               break;
 
             // 日付
@@ -258,18 +309,18 @@ $(function(){
           }
           if(link) {
             content +=
-              list[i].propLabel.value + '<font color="#666">(' + prop + '):</font> ' + 
-              '<a href="' + prefix + list[i].oLabel.value + '" target="_blank">' + 
-              list[i].oLabel.value + '</a><br/>';
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' + 
+              '<a href="' + prefix + list[i].oLabel.value + suffix + 
+              '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else if(isDate) {
             theDay = new Date(list[i].oLabel.value); 
             content += 
-              list[i].propLabel.value + '<font color="#666">(' + prop + '):</font> ' +
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               theDay.getFullYear() + '年' + (theDay.getMonth()+1) + '月' + 
               theDay.getDate() + '日<br/>';
           } else {
             content += 
-              list[i].propLabel.value + '<font color="#666">(' + prop + '):</font> ' +
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               list[i].oLabel.value + '<br/>';
           }
         }
