@@ -6,7 +6,7 @@ $(function(){
     minZoom: 9,
     maxZoom: 18
   });
-  map.setView([35.658099, 139.741357], 12); // 日本経緯度原点
+  map.setView([35.658099, 139.741357], 13); // 日本経緯度原点
 
   // 地理院地図
   var newLayer = L.tileLayer(
@@ -81,7 +81,7 @@ $(function(){
       '    bd:serviceParam wikibase:language "ja, en" . ' +
       '  } ' +
       '} ' +
-      'LIMIT 250';
+      'LIMIT 300';
     var query = {
       query : sparql,
       format: 'json'
