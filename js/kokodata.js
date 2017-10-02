@@ -160,6 +160,9 @@ $(function(){
             case 'P948':      // ウィキボヤージュ用バナー
             case 'P973':      // 詳細情報URL
               break;
+            case 'P349':      // 国立国会図書館典拠ID
+              prefix = 'http://id.ndl.go.jp/auth/ndlna/';
+              break;
             case 'P373':      // コモンズのカテゴリ
               prefix = 'https://commons.wikimedia.org/wiki/Category:';
               break;
