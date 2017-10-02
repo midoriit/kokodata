@@ -154,11 +154,18 @@ $(function(){
           link = true;
 
           switch( prop ) {
+
+            // URL
             case 'P18':       // 画像
             case 'P242':      // 位置地図画像
             case 'P856':      // 公式ウェブサイト
             case 'P948':      // ウィキボヤージュ用バナー
             case 'P973':      // 詳細情報URL
+              break;
+
+            // 識別子
+            case 'P214':      // VIAF識別子
+              prefix = 'http://viaf.org/viaf/';
               break;
             case 'P349':      // 国立国会図書館典拠ID
               prefix = 'http://id.ndl.go.jp/auth/ndlna/';
@@ -166,11 +173,29 @@ $(function(){
             case 'P373':      // コモンズのカテゴリ
               prefix = 'https://commons.wikimedia.org/wiki/Category:';
               break;
+            case 'P454':      // Structurae
+              prefix = 'https://structurae.net/structures/';
+              break;
+            case 'P455':     // Emporis
+              prefix = 'https://www.emporis.com/buildings/';
+              break;
+            case 'P935':      // コモンズのギャラリー
+              prefix = 'https://commons.wikimedia.org/wiki/';
+              break;
+            case 'P982':     // MusicBrainz地域ID
+              prefix = 'https://musicbrainz.org/area/';
+              break;
             case 'P1004':     // MusicBrainz place ID
               prefix = 'https://musicbrainz.org/place/';
               break;
             case 'P1305':     // Skyscraper Center ID
               prefix = 'http://www.skyscrapercenter.com/building.php?building_id=';
+              break;
+            case 'P1566':     // GeoNames ID
+              prefix = 'http://www.geonames.org/';
+              break;
+            case 'P1699':     // SkyscraperPage building id
+              prefix = 'http://skyscraperpage.com/cities/?buildingID=';
               break;
             case 'P2002':     // Twitterのユーザー名
               prefix = 'https://twitter.com/';
@@ -178,9 +203,19 @@ $(function(){
             case 'P2013':     // フェイスブックID
               prefix = 'https://www.facebook.com/';
               break;
+            case 'P2270':     // Emporis building complex ID
+              prefix = 'https://www.emporis.com/complex/';
+              break;
+            case 'P2762':     // Skyscraper Center building complex ID
+              prefix = 'https://www.skyscrapercenter.com/complex/';
+              break;
+            case 'P2765':     // blue-style.com ID
+              prefix = 'http://www.blue-style.com/building/';
+              break;
             case 'P3225':     // 法人番号
               prefix = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=';
               break;
+
             default:
               link = false;
           }
