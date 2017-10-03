@@ -148,21 +148,28 @@ $(function(){
         var list = data.results.bindings;
         var content = '';
         var prop;
+        var prefix;
+        var suffix;
         var isDate;
         var isDirect;
+        var isSpecial;
         var ignoreFormatter;
         var link;
         for(i=0 ; i<list.length ; i++) {
 
           prop = list[i].p.value.replace(/.*prop\/direct\//g, '');
+          prefix = '';
+          suffix = '';
           isDirect = false;
           isDate = false;
+          isSpecial = false;
           ignoreFormatter = false;
 
           switch( prop ) {
 
             // 日付
             case 'P571':      // 創立日
+            case 'P576':      // 解散日
             case 'P580':      // 開始日
             case 'P582':      // 終了日
             case 'P1619':     // 開設年月日
@@ -182,7 +189,14 @@ $(function(){
               isDirect = true;
               break;
 
-            case 'P625':      // 位置座標()
+            // formatterを使わず個別対応
+            case 'P3225':     // 法人番号
+              prefix = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=';
+              isSpecial = true;
+              break;
+
+            // formatterによるリンク抑止
+            case 'P625':      // 位置座標
               ignoreFormatter = true;
               break;
 
@@ -198,6 +212,11 @@ $(function(){
               list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               theDay.getFullYear() + '年' + (theDay.getMonth()+1) + '月' + 
               theDay.getDate() + '日<br/>';
+          } else if(isSpecial) {
+            content += 
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' + 
+              '<a href="' + prefix + list[i].oLabel.value + suffix + 
+              '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else if(list[i].formatter && !ignoreFormatter) {
             link = list[i].formatter.value;
             content += 
