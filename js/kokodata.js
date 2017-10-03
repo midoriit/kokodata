@@ -148,8 +148,6 @@ $(function(){
         var list = data.results.bindings;
         var content = '';
         var prop;
-        var prefix;
-        var suffix;
         var isDate;
         var isDirect;
         var isSpecial;
@@ -158,8 +156,6 @@ $(function(){
         for(i=0 ; i<list.length ; i++) {
 
           prop = list[i].p.value.replace(/.*prop\/direct\//g, '');
-          prefix = '';
-          suffix = '';
           isDirect = false;
           isDate = false;
           isSpecial = false;
@@ -176,27 +172,40 @@ $(function(){
               isDate = true;
               break;
 
-            // URL
+            // URL直接リンク
             case 'P18':       // 画像
             case 'P41':       // 旗の画像
             case 'P94':       // 紋章の画像
             case 'P154':      // ロゴ画像
+            case 'P158':      // 印章の画像
             case 'P242':      // 位置地図画像
             case 'P856':      // 公式ウェブサイト
             case 'P948':      // ウィキボヤージュ用バナー
             case 'P973':      // 詳細情報URL
+            case 'P1325':     // 外部データURL
             case 'P2699':     // URL
               isDirect = true;
               break;
 
-            // formatterを使わず個別対応
+            // formatter URLの値を使わず個別対応
             case 'P3225':     // 法人番号
-              prefix = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=';
+              link = 'http://www.houjin-bangou.nta.go.jp/henkorireki-johoto.html?selHouzinNo=$1';
+              isSpecial = true;
+              break;
+
+            // third-party formatterを使い個別対応
+            case 'P238':     // IATA空港コード
+              link = 'https://www.flightradar24.com/data/airports/$1';
+              isSpecial = true;
+              break;
+            case 'P239':     // ICAO空港コード
+              link = 'http://uk.flightaware.com/live/airport/$1';
               isSpecial = true;
               break;
 
             // formatterによるリンク抑止
             case 'P625':      // 位置座標
+            case 'P791':      // ISIL識別子
               ignoreFormatter = true;
               break;
 
@@ -214,8 +223,8 @@ $(function(){
               theDay.getDate() + '日<br/>';
           } else if(isSpecial) {
             content += 
-              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' + 
-              '<a href="' + prefix + list[i].oLabel.value + suffix + 
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
+              '<a href="' + link.replace('$1', list[i].oLabel.value) + 
               '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else if(list[i].formatter && !ignoreFormatter) {
             link = list[i].formatter.value;
