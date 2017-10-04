@@ -153,6 +153,7 @@ $(function(){
         var isSpecial;
         var ignoreFormatter;
         var link;
+        var theDay;
         for(i=0 ; i<list.length ; i++) {
 
           prop = list[i].p.value.replace(/.*prop\/direct\//g, '');
@@ -168,11 +169,15 @@ $(function(){
             case 'P576':      // 解散日
             case 'P580':      // 開始日
             case 'P582':      // 終了日
+            case 'P585':      // 時点
+            case 'P729':      // 運用開始日
+            case 'P730':      // 退役日
             case 'P1619':     // 開設年月日
               isDate = true;
               break;
 
             // URL直接リンク
+            case 'P10':       // 映像
             case 'P18':       // 画像
             case 'P41':       // 旗の画像
             case 'P94':       // 紋章の画像
@@ -181,9 +186,12 @@ $(function(){
             case 'P242':      // 位置地図画像
             case 'P856':      // 公式ウェブサイト
             case 'P948':      // ウィキボヤージュ用バナー
+            case 'P968':      // Eメール
             case 'P973':      // 詳細情報URL
+            case 'P989':      // 話し言葉の音声
             case 'P1325':     // 外部データURL
             case 'P2699':     // URL
+            case 'P3451':     // nighttime view
               isDirect = true;
               break;
 
