@@ -129,12 +129,17 @@ $(function(){
       $('#wikilink').html(header);
 
       var sparql = 
-        'select ?p ?propLabel ?oLabel ?formatter WHERE { ' +
+        'select ?p ?propLabel ?oLabel ?formatter ?wp WHERE { ' +
         '  hint:Query hint:optimizer "None" . ' +
            subject + ' ?p ?o . ' +
         '  ?prop wikibase:directClaim ?p . ' +
         '  OPTIONAL { ' +
         '    ?prop wdt:P1630 ?formatter . ' +
+        '  } ' +
+        '  OPTIONAL { ' +
+        '    ?wp schema:about ?o . ' +
+        '    ?wp schema:inLanguage "ja" . ' +
+        '    FILTER (SUBSTR(str(?wp), 1, 25) = "https://ja.wikipedia.org/") ' +
         '  } ' +
         '  SERVICE wikibase:label { ' +
         '    bd:serviceParam wikibase:language "ja,en". ' +
@@ -219,26 +224,36 @@ $(function(){
 
           }
           if(isDirect) {
+            // 直接リンク
             content +=
               list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' + 
               '<a href="' + list[i].oLabel.value + 
               '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else if(isDate) {
+            // 日付
             theDay = new Date(list[i].oLabel.value); 
             content += 
               list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               theDay.getFullYear() + '年' + (theDay.getMonth()+1) + '月' + 
               theDay.getDate() + '日<br/>';
           } else if(isSpecial) {
+            // 個別対応リンク
             content += 
               list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               '<a href="' + link.replace('$1', list[i].oLabel.value) + 
               '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else if(list[i].formatter && !ignoreFormatter) {
+            // formatter利用リンク
             link = list[i].formatter.value;
             content += 
               list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
               '<a href="' + link.replace('$1', list[i].oLabel.value) + 
+              '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
+          } else if(list[i].wp) {
+            // Wikipediaリンク
+            content += 
+              list[i].propLabel.value + '<font color="#777">(' + prop + '):</font> ' +
+              '<a href="' + list[i].wp.value + 
               '" target="_blank">' + list[i].oLabel.value + '</a><br/>';
           } else {
             content += 
